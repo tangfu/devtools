@@ -1,0 +1,17 @@
+{
+  "name": "develop tools",
+  "version": "0.1",
+  "manifest_version": 2,
+
+  "homepage_url": "http://www.rainhome.org",
+  "icons": { 
+    "16": "image/tools_16.png",             
+    "48": "image/tools_48.png",            
+    "128": "image/tools_128.png" 
+  },
+  "browser_action": {
+	"default_icon": "image/tools_16.png",
+	"default_title": "develop tools",
+	"default_popup": "tools.html"
+  }
+}

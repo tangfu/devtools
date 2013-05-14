@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+</head>
+
+<body>
+	<fieldset >
+		<legend>datetime <--> timestamp</legend>
+		<input id="time_sec" />
+		<input type="button" id="time2str" value="timestamp -> string"/>
+		<input type="button" id="str2time" value="string -> timestamp"/>
+		<p id="time_str">
+		
+		</p>
+	</fieldset>
+	
+	<fieldset >
+		<legend>ip <--> int</legend>
+		<input id="ip" />
+		<input type="button" id="int2ip" value="int -> ip"/>
+		<input type="button" id="ip2int" value="ip -> int"/>
+		<p id="ip_str">
+		
+		</p>
+	</fieldset>
+	
+	<fieldset >
+		<legend>big endian <--> little endian</legend>
+		<input id="number" />
+		<input type="button" id="big2little" value="As Int"/>
+		<input type="button" id="little2big" value="As Long"/>
+		<p id="endian_raw_str">
+			
+		</p>
+		<p id="endian_new_str">
+			
+		</p>
+	</fieldset>
+	
+	<fieldset >
+		<legend>URI Encode / Decode</legend>
+		<input id="url_str" />
+		<input type="button" id="urldecode" value="Decode"/>
+		<input type="button" id="urlencode" value="Encode"/>
+		<p id="url_result">
+			
+		</p>
+	</fieldset>
+	
+	<fieldset >
+		<legend>繁简转换</legend>
+		<input id="st_str" />
+		<input type="button" id="t2s" value="繁体 -> 简体"/>
+		<input type="button" id="s2t" value="简体 -> 繁体"/>
+		<p id="st_result">
+			
+		</p>
+	</fieldset>
+	<script type="text/javascript" src="tools.js"></script>
+</body>
+</html>
