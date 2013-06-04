@@ -72,21 +72,36 @@ function writeText(domId, text){
 
 /////////////////////////////////////////////////////
 function onDate2String(){
-	var re = new RegExp("^[0-9]{0,10}$");
 	var t = document.getElementById("time_sec").value;
-	if(re.test(t))
-		document.getElementById("time_str").innerHTML = date2String(parseInt(t));
-	else
-		document.getElementById("time_str").innerHTML = "格式错误 只能是不超过10位的数字";
+	if(!t) {
+		var timestamp = Math.round(new Date().getTime()/1000); 
+		document.getElementById("time_str").innerHTML = date2String(timestamp);
+	} else {
+		var re = new RegExp("^[0-9]{0,10}$");
+		if(re.test(t))
+			document.getElementById("time_str").innerHTML = date2String(parseInt(t));
+		else
+			document.getElementById("time_str").innerHTML = "格式错误 只能是不超过10位的数字";
+	}
 }
 function onString2Date(){
-	var re = new RegExp("^([0-9]{4})-([0-1][0-9])-([0-3][0-9]) ([0-2][0-9]):([0-5][0-9]):([0-5][0-9])$");
 	var t = document.getElementById("time_sec").value;
-	if(re.test(t))
-		document.getElementById("time_str").innerHTML = string2stamp(t);
-	else 
-		document.getElementById("time_str").innerHTML = "格式错误 YY-MM-DD HH:MM:SS";
+	if(!t) {
+		var timestamp = Math.round(new Date().getTime()/1000); 
+		document.getElementById("time_str").innerHTML = timestamp;
+	} else {
+		var re = new RegExp("^([0-9]{4})-([0-1][0-9])-([0-3][0-9]) ([0-2][0-9]):([0-5][0-9]):([0-5][0-9])$");
+		if(re.test(t))
+			document.getElementById("time_str").innerHTML = string2stamp(t);
+		else 
+			document.getElementById("time_str").innerHTML = "格式错误 YY-MM-DD HH:MM:SS";
+	}
 }
+function getCurTimeStamp() {
+	var timestamp = Date.parse(new Date()); 
+	document.getElementById("timestamp").innerHTML = timestamp;
+}
+
 function onInt2IP(){
 	var re = new RegExp("^[0-9]{0,10}$");
 	t = document.getElementById("ip").value;
