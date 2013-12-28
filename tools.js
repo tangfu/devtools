@@ -29,39 +29,6 @@ function string2stamp(str){
 	d.setSeconds(parseInt(str.substr(17, 2), 10));
 	return Math.floor(d.getTime()/1000);
 }
-function int2byte(i){
-	var arr = [];
-	arr.push((i >> 24) & 0xFF);
-	arr.push((i >> 16) & 0xFF);
-	arr.push((i >> 8) & 0xFF);
-	arr.push(i & 0xFF);
-	return arr;
-}
-function byte2int(arr){
-	var i = 0;
-	i |= (arr[0] << 24) & 0xFF000000;
-	i |= (arr[1] << 16) & 0x00FF0000;
-	i |= (arr[2] << 8) & 0x0000FF00;
-	i |= arr[3] & 0x000000FF;
-	return i;
-}
-function rint(i){
-	var r = 0;
-	for (var j=0;j<4;j++){
-		r = (r << 8) | ((i >> (j*8)) & 0xFF);
-	}
-	return r;
-}
-function rlong(l){
-	var r = 0;
-	for (var j=0;j<8;j++){
-		r = (r << 8) | ((l >> (j*8)) & 0xFF);
-	}
-	return r;
-}
-function endianResult(domId, number, bytes){
-	document.getElementById(domId).innerHTML = number + " = " + bytes.toString();
-}
 function writeText(domId, text){
 	var dom = document.getElementById(domId);
 	if (dom.innerText != undefined)
@@ -125,35 +92,49 @@ function onIP2Int(){
 		document.getElementById("ip_str").innerHTML = "ip地址格式不合法";
 	}
 }
-function onRInt(){
-	var n = document.getElementById("number").value;
-	n = parseInt(n);
-	var nb = int2byte(n);
-	endianResult("endian_raw_str", n, nb);
-	var rnb = nb.reverse();
-	var rn = byte2int(rnb);
-	endianResult("endian_new_str", rn, rnb);
+/////////////////////////////////////////////////////
+function onH2NL() {
+    var n = document.getElementById("number").value;
+    v = parseInt(n);
+    var b = new Array();
+    b[0] = (0xff & (v >> 24));
+    b[1] = (0xff & (v >> 16));
+    b[2] = (0xff & (v >> 8));
+    b[3] = (0xff & (v));
+    data = (b[0] + (b[1] << 8) + (b[2] << 16) + (b[3] << 24)) >>> 0;
+    document.getElementById("endian_str").innerHTML = "htonl(" + n + ") = " + data.toString();
 }
-function onRLong(){
-	var n = document.getElementById("number").value;
-	n = parseInt(n);
-	var nbl = int2byte(n & 0xFFFFFFFF);
-	var nbh = int2byte((n>>16>>16) & 0xFFFFFFFF); 
-	var nb = [];
-	for (var i=0;i<4;i++)
-		nb.push(nbh[i]);
-	for (var i=0;i<4;i++)
-		nb.push(nbl[i]);
-	endianResult("endian_raw_str", n, nb);
-	var rnb = nb.reverse();
-	var rnbl = [];
-	for (var i=4;i<8;i++)
-		rnbl.push(rnb[i]);
-	var rnh = byte2int(rnb);
-	var rnl = byte2int(rnbl);
-	var rn = (rnh << 32) | rnl;
-	endianResult("endian_new_str", rn, rnb);
+function onH2NS() {
+    var n = document.getElementById("number").value;
+    v = parseInt(n);
+    var b = new Array();
+    b[0] = (0xff & (v >> 8));
+    b[1] = (0xff & (v));
+    data = (b[0] + (b[1] << 8)) >>> 0;
+    document.getElementById("endian_str").innerHTML = "htons(" + n + ") = " + data.toString();
 }
+function onN2HL() {
+    var n = document.getElementById("number").value;
+    v = parseInt(n);
+    data = (((0xff & v) << 24) |
+               ((0xff & (v >> 8)) << 16) |
+               ((0xff & (v >> 16)) << 8) |
+               ((0xff & (v >> 24)))) >>> 0;
+    document.getElementById("endian_str").innerHTML = "ntohl(" + n + ") = " + data.toString();
+}
+function onN2HS() {
+    var n = document.getElementById("number").value;
+    v = parseInt(n);
+    var b = new Array();
+    b[0] = (0xff & (v >> 8));
+    b[1] = (0xff & (v));
+    data = (b[0] + (b[1] << 8)) >>> 0;
+    data = (((0xff & v) << 8) |
+           ((0xff & (v >> 8)))) >>> 0;
+    document.getElementById("endian_str").innerHTML = "ntohs(" + n + ") = " + data.toString();
+}
+
+/////////////////////////////////////////////////////
 function onURIEncode(){
 	var v = document.getElementById("url_str").value;
 	document.getElementById("url_result").innerHTML = encodeURIComponent(v);
@@ -162,6 +143,7 @@ function onURIDecode(){
 	var v = document.getElementById("url_str").value;
 	document.getElementById("url_result").innerHTML = decodeURIComponent(v);
 }
+/////////////////////////////////////////////////////
 function onTraditional2Simplified(){
 	var v = document.getElementById("st_str").value;
 	var target = [];
@@ -204,8 +186,10 @@ document.getElementById("str2time").addEventListener('click',onString2Date, fals
 document.getElementById("int2ip").addEventListener('click',onInt2IP, false);
 document.getElementById("ip2int").addEventListener('click',onIP2Int, false);
 
-document.getElementById("big2little").addEventListener('click',onRInt, false);
-document.getElementById("little2big").addEventListener('click',onRLong, false);
+document.getElementById("htonl").addEventListener('click',onH2NL, false);
+document.getElementById("htons").addEventListener('click',onH2NS, false);
+document.getElementById("ntohl").addEventListener('click',onN2HL, false);
+document.getElementById("ntohs").addEventListener('click',onN2HS, false);
 
 document.getElementById("urlencode").addEventListener('click',onURIEncode, false);
 document.getElementById("urldecode").addEventListener('click',onURIDecode, false);
