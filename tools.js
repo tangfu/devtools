@@ -1,4 +1,20 @@
-﻿function date2String(secs){
+﻿function int2byte(i){
+        var arr = [];
+        arr.push((i >> 24) & 0xFF);
+        arr.push((i >> 16) & 0xFF);
+        arr.push((i >> 8) & 0xFF);
+        arr.push(i & 0xFF);
+        return arr;
+}
+function byte2int(arr){
+        var i = 0;
+        i |= (arr[0] << 24) & 0xFF000000;
+        i |= (arr[1] << 16) & 0x00FF0000;
+        i |= (arr[2] << 8) & 0x0000FF00;
+        i |= arr[3] & 0x000000FF;
+        return i;
+}
+function date2String(secs){
 	var d = new Date();
 	d.setTime(secs * 1000);
 	var rs = d.getFullYear() + "-";
